@@ -4,6 +4,7 @@ import org.niteen.tasktracker.dto.user.*;
 import org.niteen.tasktracker.entity.User;
 import org.niteen.tasktracker.enums.Role;
 import org.niteen.tasktracker.exception.EmailAlreadyExistsException;
+import org.niteen.tasktracker.exception.UserNotFoundException;
 import org.niteen.tasktracker.mapper.UserMapper;
 import org.niteen.tasktracker.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,26 +49,69 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public LoginResponse login(LoginRequest request) {
-        return null;
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(()->
+                new UserNotFoundException("Invalid email or password"));
+
+        if(!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new UserNotFoundException("Invalid email or password");
+        }
+        LoginResponse response = new LoginResponse();
+
+        //PlaceHolder since No impl of JWT
+        response.setToken("JWT not implemented yet");
+
+        return response;
     }
 
     @Override
     public UserDTO getUserById(Long id) {
-        return null;
+        User user = userRepository.findById(id).orElseThrow(()->
+                new UserNotFoundException("User with id " + id + " not found"));
+        return userMapper.toDto(user);
     }
 
     @Override
     public List<UserDTO> getAllUsers() {
-        return List.of();
+        List<User> users = userRepository.findAll();
+        if(users.isEmpty()) {
+            throw new UserNotFoundException("No users found");
+        }
+
+        //Using Streams
+
+        return users.stream()
+                .map(userMapper :: toDto)
+                .toList();
+
     }
 
     @Override
     public UserDTO updateUser(Long id, UpdateUserRequest request) {
-        return null;
+        User user = userRepository.findById(id).orElseThrow(()->
+                new UserNotFoundException("User with id " + id + " not found"));
+
+        userRepository.findByEmail(request.getEmail())
+                .ifPresent(existingUser -> {
+                    if (!existingUser.getId().equals(id)) {
+                        throw new EmailAlreadyExistsException("Email already exists.");
+                    }
+                });
+
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));;
+
+        User updatedUser = userRepository.save(user);
+
+        return userMapper.toDto(updatedUser) ;
     }
 
     @Override
     public void deleteUser(Long id) {
+        User user = userRepository.findById(id).orElseThrow(()->
+                new UserNotFoundException("User with id " + id + " not found"));
+
+        userRepository.delete(user);
 
     }
 }

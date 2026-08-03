@@ -9,9 +9,7 @@ public class AssignTaskRequest {
     public AssignTaskRequest(Long AssignedUserId) {
         this.AssignedUserId = AssignedUserId;
     }
-    public AssignTaskRequest() {
-
-    }
+    public AssignTaskRequest() { }
 
     public void setAssignedUserId(Long assignedUserId) {
         this.AssignedUserId = assignedUserId;

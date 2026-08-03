@@ -1,10 +1,13 @@
 package org.niteen.tasktracker.dto.task;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.niteen.tasktracker.enums.Priority;
+import org.niteen.tasktracker.enums.TaskStatus;
 
 
 import java.time.LocalDateTime;
@@ -25,11 +28,33 @@ public class CreateTaskRequest {
     @NotNull(message = "priority is required")
     private Priority priority;
 
+    @NotBlank
+    @Enumerated(EnumType.STRING)
+    private TaskStatus status;
+
     @NotNull(message = "assigned user is required")
     private Long assignedUserId;
 
     @NotNull(message = "team is required")
     private Long teamId;
+
+    public TaskStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TaskStatus status) {
+        this.status = status;
+    }
+
+    public CreateTaskRequest(String title, String description, LocalDateTime dueDate, Priority priority, TaskStatus status, Long assignedUserId, Long teamId) {
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.priority = priority;
+        this.status = status;
+        this.assignedUserId = assignedUserId;
+        this.teamId = teamId;
+    }
 
     public CreateTaskRequest(String title,
                              String description,
@@ -94,4 +119,6 @@ public class CreateTaskRequest {
     public void setTeamId(Long teamId) {
         this.teamId = teamId;
     }
+
+
 }

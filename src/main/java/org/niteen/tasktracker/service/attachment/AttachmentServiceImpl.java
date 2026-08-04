@@ -2,6 +2,10 @@ package org.niteen.tasktracker.service.attachment;
 
 import org.niteen.tasktracker.dto.attachment.AttachmentDTO;
 import org.niteen.tasktracker.dto.attachment.UploadAttachmentRequest;
+import org.niteen.tasktracker.entity.Attachment;
+import org.niteen.tasktracker.entity.Task;
+import org.niteen.tasktracker.exception.AttachmentNotFoundException;
+import org.niteen.tasktracker.exception.TaskNotFoundException;
 import org.niteen.tasktracker.mapper.AttachmentMapper;
 import org.niteen.tasktracker.repository.AttachmentRepository;
 import org.niteen.tasktracker.repository.TaskRepository;
@@ -39,11 +43,24 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     public List<AttachmentDTO> getAttachments(Long taskId) {
-        return List.of();
+
+        taskRepository.findById(taskId).orElseThrow(()->
+                new TaskNotFoundException("Task with id " + taskId + " not found"));
+
+        List<Attachment> attachments = attachmentRepository.findByTaskId(taskId);
+
+
+        return attachments.stream().map(attachmentMapper :: toDto).toList();
     }
 
     @Override
     public void deleteAttachment(Long attachmentId) {
 
+        Attachment attachment = attachmentRepository.findById(attachmentId)
+                .orElseThrow(() ->
+                        new AttachmentNotFoundException(
+                                "Attachment with id " + attachmentId + " not found"));
+
+        attachmentRepository.delete(attachment);
     }
 }

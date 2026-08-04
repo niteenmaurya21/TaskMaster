@@ -53,6 +53,7 @@ public class Comment {
     }
 
     public void setMessage(String message) {
+
         this.message = message;
     }
 

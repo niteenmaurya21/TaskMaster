@@ -2,6 +2,7 @@ package org.niteen.tasktracker.service.comment;
 
 import org.niteen.tasktracker.dto.comment.CommentDTO;
 import org.niteen.tasktracker.dto.comment.CreateCommentRequest;
+import org.niteen.tasktracker.dto.comment.UpdateCommentRequest;
 import org.niteen.tasktracker.entity.Comment;
 import org.niteen.tasktracker.entity.Task;
 import org.niteen.tasktracker.entity.User;
@@ -74,4 +75,18 @@ public class CommentServiceImpl implements CommentService {
 
     }
 
+    @Override
+    public CommentDTO updateComment(Long commentId, UpdateCommentRequest request) {
+
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() ->
+                        new CommentNotFoundException(
+                                "Comment with id " + commentId + " not found"));
+
+        comment.setMessage(request.getMessage());
+
+        Comment updatedComment = commentRepository.save(comment);
+
+        return commentMapper.toDto(updatedComment);
+    }
 }

@@ -61,14 +61,7 @@ public class TeamController {
 
     @DeleteMapping("/{teamId}/members/{userId}")
     public ResponseEntity<TeamDTO> removeMember(@PathVariable long teamId, @PathVariable long userId) {
-       
+
        return ResponseEntity.ok(this.teamService.removeMember(teamId, userId));
     }
-
-
-
-
-
-
-
 }

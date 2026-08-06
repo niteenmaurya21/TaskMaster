@@ -54,5 +54,27 @@ ETC...
  Most Spring Boot projects use this or a similar feature-based structure
 
 # project Status 
-##THE PROJECT WILL STILL TAKE SOME TIME TO COMPLETE##
-TODO: Controller,Security, Role based Authorisation,Unit Testing  and also file Upload System(currently have only attachment entity and API's not any physical file storage)
+
+This project is currently under Development 
+
+###completed
+- user Management
+- Team Management
+- Comment Management
+- Attachment Management
+- Layered Architecture
+- REST Controllers
+- Service Layer
+- Repository Layer
+- DTO Layer
+- Entity Relationships
+- Validation
+- Global Exception Handling
+- H2 Database Integration
+
+### Planned Features
+
+- JWT Authentication
+- Role-Based Authorization
+- Unit Testing
+- File Upload Implementation

@@ -2,7 +2,7 @@
 Task master is a task tracking application where you can keep record of your task with your team and also keep the record for the changes in the task.
 SpringBoot application used for managing task, team, user, comments, attachment
 
-# includes various fetures like 
+# includes various features like 
  -UserRegistration
  -TeamManagement 
  -TaskAssingment
@@ -16,7 +16,7 @@ SpringBoot application used for managing task, team, user, comments, attachment
 # TechStack Used
 - JAVA
 - SpringBoot
-- DataJpa
+- Data JPA
 - Hibernate
 - MySQL
 - Gradle
@@ -55,4 +55,4 @@ ETC...
 
 # project Status 
 ##THE PROJECT WILL STILL TAKE SOME TIME TO COMPLETE##
-TODO: Controller,Security, Role based Authorisation,Unit Testing  and also file Upload System
+TODO: Controller,Security, Role based Authorisation,Unit Testing  and also file Upload System(currently have only attachment entity and API's not any physical file storage)

@@ -40,27 +40,11 @@ public class UserServiceImpl implements UserService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        user.setRole(Role.USER);
+        user.setRole(Role.ROLE_USER);
 
         User savedUser = userRepository.save(user);
 
         return userMapper.toDto(savedUser);
-    }
-
-    @Override
-    public LoginResponse login(LoginRequest request) {
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(()->
-                new UserNotFoundException("Invalid email or password"));
-
-        if(!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new UserNotFoundException("Invalid email or password");
-        }
-        LoginResponse response = new LoginResponse();
-
-        //PlaceHolder since No impl of JWT
-        response.setToken("JWT not implemented yet");
-
-        return response;
     }
 
     @Override

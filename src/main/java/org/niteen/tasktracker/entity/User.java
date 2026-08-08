@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import org.niteen.tasktracker.enums.Role;
+import org.springframework.security.core.userdetails.UserDetails;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,7 +46,6 @@ public class User {
 
     @OneToMany(mappedBy = "author")
     private List<Comment> comments = new ArrayList<>();
-
 
     public List<Task> getAssignedTasks() {
         return assignedTasks;
@@ -90,6 +91,7 @@ public class User {
         this.email = email;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
@@ -97,6 +99,13 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+
 
     public User(String name, String email, String password, Role role) {
 

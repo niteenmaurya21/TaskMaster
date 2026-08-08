@@ -9,7 +9,7 @@ public interface UserService {
 
         UserDTO register(RegisterRequest request);
 
-        LoginResponse login(LoginRequest request);
+//        LoginResponse login(LoginRequest request);
 
         UserDTO getUserById(Long id);
 
